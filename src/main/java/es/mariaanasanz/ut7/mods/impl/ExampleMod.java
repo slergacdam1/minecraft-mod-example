@@ -88,7 +88,7 @@ public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStart
         int probabilidad = nivel;
         if (itemStack.stream().anyMatch(stack -> stack.getItem().toString().contains("FISH"))) {
         if (numeroRandom >= probabilidad){
-            ItemStack cocinado = new ItemStack(Items.COOKED_CHICKEN, 3);
+            ItemStack cocinado = new ItemStack(Items.COOKED_CHICKEN, 1);
             jugador.getInventory().add(cocinado);
             jugador.getInventory().add(new ItemStack(Items.DIAMOND));
             }
