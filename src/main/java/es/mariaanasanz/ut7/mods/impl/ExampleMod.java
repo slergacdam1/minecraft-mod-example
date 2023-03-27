@@ -20,6 +20,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 
+
 @Mod(DamMod.MOD_ID)
 public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStartEvent,
         IItemPickupEvent, ILivingDamageEvent, IUseItemEvent, IFishedEvent,
@@ -83,18 +84,25 @@ public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStart
         Player jugador = (Player) event.getEntity();
         int nivel = jugador.experienceLevel;
         NonNullList<ItemStack> itemStack = event.getDrops();
-        System.out.println(" ¡Has pescado un pez! " + itemStack.toString() +  " y el nivel de experiencia es: " + nivel);
+        System.out.println(" ¡Has pescado un pez! " + itemStack.toString() + " y el nivel de experiencia es: " + nivel);
         int numeroRandom = (int) (Math.random() * 100 + 1);
         int probabilidad = nivel;
-        if (itemStack.stream().anyMatch(stack -> stack.getItem().toString().contains("FISH"))) {
-        if (numeroRandom >= probabilidad){
-            ItemStack cocinado = new ItemStack(Items.COOKED_CHICKEN, 1);
-            jugador.getInventory().add(cocinado);
-            jugador.getInventory().add(new ItemStack(Items.DIAMOND));
+        if (numeroRandom >= probabilidad) {
+            //  if (itemStack.stream().anyMatch(stack -> stack.getItem().toString().contains("FISH"))) {
+                /*ItemStack cocinado = new ItemStack(Items.COOKED_CHICKEN, 1);
+                jugador.getInventory().add(cocinado);
+                }*/
+            if (itemStack.stream().anyMatch(stack -> stack.getItem().toString().contains("cod"))) {
+                ItemStack cocinado = new ItemStack(Items.COOKED_CHICKEN, 1);
+                jugador.getInventory().add(cocinado);
+
+                jugador.getInventory().add(new ItemStack(Items.DIAMOND));
             }
+            System.out.println(numeroRandom);
             System.out.println(" acabas de conseguir un item adicional: " + itemStack.toString());
         }
     }
+
 
     @Override
     @SubscribeEvent
