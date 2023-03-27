@@ -2,8 +2,10 @@ package es.mariaanasanz.ut7.mods.impl;
 
 import es.mariaanasanz.ut7.mods.base.*;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -17,18 +19,21 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+
 @Mod(DamMod.MOD_ID)
 public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStartEvent,
         IItemPickupEvent, ILivingDamageEvent, IUseItemEvent, IFishedEvent,
         IInteractEvent, IMovementEvent {
 
+
     public ExampleMod(){
         super();
+
     }
 
     @Override
     public String autor() {
-        return "Javier Jorge Soteras";
+        return "Santi Lerga Cambra";
     }
 
     @Override
@@ -48,7 +53,8 @@ public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStart
     @SubscribeEvent
     public void onItemPickup(EntityItemPickupEvent event) {
         LOGGER.info("Item recogido");
-        System.out.println("Item recogido");
+        ItemStack itemStack  = event.getItem().getItem();
+        System.out.println("Item recogido: " + itemStack);
     }
 
     @Override
@@ -74,7 +80,20 @@ public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStart
     @Override
     @SubscribeEvent
     public void onPlayerFish(ItemFishedEvent event) {
-        System.out.println("¡Has pescado un pez!");
+        Player jugador = (Player) event.getEntity();
+        int nivel = jugador.experienceLevel;
+        NonNullList<ItemStack> itemStack = event.getDrops();
+        System.out.println(" ¡Has pescado un pez! " + itemStack.toString() +  " y el nivel de experiencia es: " + nivel);
+        int numeroRandom = (int) (Math.random() * 100 + 1);
+        int probabilidad = nivel;
+        if (itemStack.stream().anyMatch(stack -> stack.getItem().toString().contains("FISH"))) {
+        if (numeroRandom >= probabilidad){
+            ItemStack cocinado = new ItemStack(Items.COOKED_CHICKEN, 3);
+            jugador.getInventory().add(cocinado);
+            jugador.getInventory().add(new ItemStack(Items.DIAMOND));
+            }
+            System.out.println(" acabas de conseguir un item adicional: " + itemStack.toString());
+        }
     }
 
     @Override
@@ -92,6 +111,7 @@ public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStart
             }
         }
     }
+
 
     @Override
     @SubscribeEvent
