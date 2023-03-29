@@ -4,6 +4,7 @@ import es.mariaanasanz.ut7.mods.base.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
@@ -34,7 +35,7 @@ public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStart
 
     @Override
     public String autor() {
-        return "Santi Lerga Cambra";
+        return "Santi Lerga ";
     }
 
     @Override
@@ -88,21 +89,42 @@ public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStart
         int numeroRandom = (int) (Math.random() * 100 + 1);
         int probabilidad = nivel;
         if (numeroRandom >= probabilidad) {
-            //  if (itemStack.stream().anyMatch(stack -> stack.getItem().toString().contains("FISH"))) {
-                /*ItemStack cocinado = new ItemStack(Items.COOKED_CHICKEN, 1);
-                jugador.getInventory().add(cocinado);
-                }*/
-            if (itemStack.stream().anyMatch(stack -> stack.getItem().toString().contains("cod"))) {
+            //if (itemStack.stream().anyMatch(stack -> stack.getItem().toString().contains("FISH"))) {
+            // ItemStack cocinado = new ItemStack(Items.COOKED_CHICKEN, 1);
+            //jugador.getInventory().add(cocinado);
+            //}
+            for (ItemStack stack : itemStack) {
+                if (stack.getItem().asItem().getName(stack).getString().contains("asfd")) {
+                    ItemStack cocinado = new ItemStack(Items.COOKED_COD, 1);
+                    jugador.getInventory().add(cocinado);
+
+                    jugador.getInventory().add(new ItemStack(Items.DIAMOND));
+
+                }
+
+           /*if (itemStack.stream().anyMatch(stack -> stack.getItem().toString().contains("awr"))) {
                 ItemStack cocinado = new ItemStack(Items.COOKED_CHICKEN, 1);
                 jugador.getInventory().add(cocinado);
 
                 jugador.getInventory().add(new ItemStack(Items.DIAMOND));
+            }*/
+                else {
+                    ItemStack objeto = objetoAleatorio();
+                    jugador.getInventory().add(objeto);
+                    System.out.println("acabas de conseguir un diamante por no pescar un pez " + objeto.getItem().asItem().getName(objeto).getString());
+                }
+                System.out.println(numeroRandom);
+                System.out.println(" acabas de conseguir un item adicional: " + itemStack.toString());
             }
-            System.out.println(numeroRandom);
-            System.out.println(" acabas de conseguir un item adicional: " + itemStack.toString());
         }
     }
 
+    private ItemStack objetoAleatorio(){
+        Item[] itemsAleatorios = {Items.BOOK, Items.BOW, Items.CLOCK, Items.DIAMOND};
+        int numeroAleatorio = (int) (Math.random() * itemsAleatorios.length);
+        return new ItemStack(itemsAleatorios[numeroAleatorio], 1);
+
+    }
 
     @Override
     @SubscribeEvent
