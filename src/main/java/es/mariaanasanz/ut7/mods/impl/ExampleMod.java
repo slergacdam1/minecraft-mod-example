@@ -94,24 +94,21 @@ public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStart
             //jugador.getInventory().add(cocinado);
             //}
             for (ItemStack stack : itemStack) {
-                if (stack.getItem().asItem().getName(stack).getString().contains("asfd")) {
+                if (stack.toString().toLowerCase().contains("cod")) {
                     ItemStack cocinado = new ItemStack(Items.COOKED_COD, 1);
                     jugador.getInventory().add(cocinado);
 
-                    jugador.getInventory().add(new ItemStack(Items.DIAMOND));
-
-                }
-
-           /*if (itemStack.stream().anyMatch(stack -> stack.getItem().toString().contains("awr"))) {
-                ItemStack cocinado = new ItemStack(Items.COOKED_CHICKEN, 1);
-                jugador.getInventory().add(cocinado);
-
-                jugador.getInventory().add(new ItemStack(Items.DIAMOND));
-            }*/
-                else {
+                } else if (stack.toString().toLowerCase().contains("salmon")) {
+                    ItemStack cocinado = new ItemStack(Items.COOKED_SALMON, 1);
+                    jugador.getInventory().add(cocinado);
+                } else if (stack.toString().toLowerCase().contains("pufferfish")) {
+                    System.out.println("la gozas");
+                } else if (stack.toString().toLowerCase().contains("tropical")) {
+                    System.out.println("la gozas");
+                } else {
                     ItemStack objeto = objetoAleatorio();
                     jugador.getInventory().add(objeto);
-                    System.out.println("acabas de conseguir un diamante por no pescar un pez " + objeto.getItem().asItem().getName(objeto).getString());
+                    System.out.println("acabas de conseguir un diamante por no pescar un pez " + objeto.toString());
                 }
                 System.out.println(numeroRandom);
                 System.out.println(" acabas de conseguir un item adicional: " + itemStack.toString());
