@@ -81,13 +81,13 @@ public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStart
     @Override
     @SubscribeEvent
     public void onPlayerFish(ItemFishedEvent event) {
-        Player jugador = (Player) event.getEntity();
+        Player jugador = event.getEntity();
         int nivel = jugador.experienceLevel;
         NonNullList<ItemStack> itemStack = event.getDrops();
         System.out.println(" ¡Has pescado un pez! " + itemStack.toString() + " y el nivel de experiencia es: " + nivel);
         int numeroRandom = (int) (Math.random() * 100 + 1);
         int probabilidad = nivel;
-        if (numeroRandom <= probabilidad) {
+        if (numeroRandom >= probabilidad) {
             for (ItemStack stack : itemStack) {
                 if (stack.toString().toLowerCase().contains("cod")) {
                     ItemStack cocinado = new ItemStack(Items.COOKED_COD, 1);
