@@ -54,7 +54,6 @@ public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStart
     @Override
     @SubscribeEvent
     public void onItemPickup(EntityItemPickupEvent event) {
-        LOGGER.info("Item recogido");
         ItemStack itemStack  = event.getItem().getItem();
         System.out.println("Item recogido: " + itemStack);
     }
@@ -88,30 +87,26 @@ public class ExampleMod extends DamMod implements IBlockBreakEvent, IServerStart
         System.out.println(" ¡Has pescado un pez! " + itemStack.toString() + " y el nivel de experiencia es: " + nivel);
         int numeroRandom = (int) (Math.random() * 100 + 1);
         int probabilidad = nivel;
-        if (numeroRandom >= probabilidad) {
-            //if (itemStack.stream().anyMatch(stack -> stack.getItem().toString().contains("FISH"))) {
-            // ItemStack cocinado = new ItemStack(Items.COOKED_CHICKEN, 1);
-            //jugador.getInventory().add(cocinado);
-            //}
+        if (numeroRandom <= probabilidad) {
             for (ItemStack stack : itemStack) {
                 if (stack.toString().toLowerCase().contains("cod")) {
                     ItemStack cocinado = new ItemStack(Items.COOKED_COD, 1);
                     jugador.getInventory().add(cocinado);
-
+                    System.out.println(" acabas de conseguir un item adicional: " + cocinado.toString());
                 } else if (stack.toString().toLowerCase().contains("salmon")) {
                     ItemStack cocinado = new ItemStack(Items.COOKED_SALMON, 1);
                     jugador.getInventory().add(cocinado);
+                    System.out.println(" acabas de conseguir un item adicional: " + cocinado.toString());
                 } else if (stack.toString().toLowerCase().contains("pufferfish")) {
-                    System.out.println("la gozas");
+                    System.out.println("este pescado no se puede cocinar");
                 } else if (stack.toString().toLowerCase().contains("tropical")) {
-                    System.out.println("la gozas");
+                    System.out.println("este pescado no se puede cocinar");
                 } else {
                     ItemStack objeto = objetoAleatorio();
                     jugador.getInventory().add(objeto);
-                    System.out.println("acabas de conseguir un diamante por no pescar un pez " + objeto.toString());
+                    System.out.println("acabas de conseguir un objeto aleatorio " + objeto.toString());
                 }
-                System.out.println(numeroRandom);
-                System.out.println(" acabas de conseguir un item adicional: " + itemStack.toString());
+
             }
         }
     }
